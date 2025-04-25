@@ -53,5 +53,5 @@ You can customize the training process and model hyperparameters using command-l
 **Example:**
 
 ```bash
-cd src && uv run main.py --epochs 20 --batch-size 64 --lr 1e-4 --embed-dim 256 --mlp-dim 1024 --device mps --use-compile
+cd src && uv run main.py --epochs 20 --batch-size 64 --lr 1e-4 --embed-dim 256 --mlp-dim 1024 --device cuda --use-compile
 ```
