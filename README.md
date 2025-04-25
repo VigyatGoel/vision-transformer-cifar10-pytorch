@@ -27,7 +27,7 @@ uv sync
 
 **Run the project:**
 ```bash
-cd uv run src/main.py
+uv run src/main.py
 ```
 
 ### Command-Line Arguments
