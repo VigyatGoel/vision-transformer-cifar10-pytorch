@@ -85,7 +85,7 @@ if __name__ == '__main__':
     parser.add_argument('--dropout', type=float, default=0.1, help='Dropout rate')
 
     parser.add_argument('--data-dir', type=str, default='./data', help='Directory for storing dataset')
-    parser.add_argument('--save-path', type=str, default='vit_cifar10_state.pth', help='Path to save the trained model state dict')
+    parser.add_argument('--save-path', type=str, default='vit_cifar10_state.pth', help='Path to save the trained model')
     parser.add_argument('--num-workers', type=int, default=2, help='Number of subprocesses for data loading')
     parser.add_argument('--device', type=str, default='cuda', choices=['cuda', 'mps', 'cpu'], help='Device to run the model on: "cuda" for Nvidia GPU, "mps" for Apple Silicon GPU, or "cpu" for CPU')
     parser.add_argument('--use-compile', action='store_true', help="Use torch.compile for model acceleration")

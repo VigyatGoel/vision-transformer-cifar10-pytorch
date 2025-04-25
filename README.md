@@ -45,7 +45,7 @@ You can customize the training process and model hyperparameters using command-l
 *   `--num-layers`: Number of transformer encoder layers (default: 6)
 *   `--dropout`: Dropout rate (default: 0.1)
 *   `--data-dir`: Directory for storing dataset (default: './data')
-*   `--save-path`: Path to save the trained model state dict (default: 'vit_cifar10_state.pth')
+*   `--save-path`: Path to save the trained model (default: 'vit_cifar10_state.pth')
 *   `--num-workers`: Number of data loading workers (default: 2)
 *   `--device`: Device to use ('cuda', 'mps', 'cpu') (default: 'cuda')
 *   `--use-compile`: Use `torch.compile` for potential speedup (flag, default: False)
