@@ -5,14 +5,17 @@ from torch.utils.data import DataLoader
 from vision_transformer import VisionTransformer
 import torch.nn as nn
 import torch.optim as optim
+from torch.optim.lr_scheduler import CosineAnnealingLR
 import argparse
 from train import train, evaluate
+
 
 transform = transforms.Compose([
     transforms.RandomHorizontalFlip(),
     transforms.RandomCrop(32, padding=4),
     transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
     transforms.RandomRotation(15),
+    transforms.AutoAugment(policy=transforms.AutoAugmentPolicy.CIFAR10),
     transforms.Resize((32, 32)),
     transforms.ToTensor(),
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
@@ -58,10 +61,12 @@ def main(args):
             model = torch.compile(model)
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+
+    optimizer = optim.Adam(model.parameters(), lr=args.lr, betas=(0.9, 0.999), weight_decay=args.weight_decay)
+    scheduler = CosineAnnealingLR(optimizer, T_max=args.epochs)
 
     print("Starting training...")
-    train(model, train_loader, criterion, optimizer, device, epochs=args.epochs)
+    train(model, train_loader, criterion, optimizer, scheduler, device, epochs=args.epochs)
     print("Starting evaluation...")
     evaluate(model, test_loader, device)
 
@@ -74,8 +79,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--epochs', type=int, default=10, help='Number of training epochs')
     parser.add_argument('--batch-size', type=int, default=32, help='Input batch size for training')
-    parser.add_argument('--lr', type=float, default=3e-4, help='Learning rate')
-    parser.add_argument('--weight-decay', type=float, default=1e-4, help='Weight decay')
+    parser.add_argument('--lr', type=float, default=0.003, help='Learning rate')
+    parser.add_argument('--weight-decay', type=float, default=0.01, help='Weight decay')
 
     parser.add_argument('--patch-size', type=int, default=4, help='Size of image patches')
     parser.add_argument('--embed-dim', type=int, default=128, help='Embedding dimension')
